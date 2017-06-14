@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .main.container.text-xs-center
+    h1.display-3 Let's have a chat time!
+    p.lead Have a nice talk with your friends and family in ChatApp
+
+    form#login-form(method='POST' action='/login')
+      .col-md-6.offset-md-3
+        .form-group
+          label.col-md-2.col-form-label.col-form-label-md.label(for="username") Username
+          .col-md-8
+            input.form-control(type="text" required id="username" placeholder="username" name="username")
+          button.btn.btn-red.col-md-2(type='submit') Log in

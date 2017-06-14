@@ -1,0 +1,13 @@
+extends layout
+
+block content
+	.main-chat.container
+		.row
+			h1.display-4 Happy Chatting :)
+			ul#messages
+			form(id="messaging-form" action="" class="form-horizontal")
+				div.col-md-12
+					div.input-group
+						input#message.form-control(type="text" autocomplete="off" placeholder="Your message here" name="message")
+						span.input-group-btn
+							button.btn.btn-red(type="button") Send
