@@ -1,9 +1,22 @@
+let socket = io();
+let idleTime = 0;
+
+// Displays a message dynamically when user sends it
+// or the first time the chat is opened
 let displayMessage = (message, users) => {
+  let date = formatDate(message.date);
   let user = findUser(message.username, users);
-  let color = user[0].color;
-  let fullMessage = '<strong>' + message.username + ' on ' + message.date + ' wrote: </strong>' + message.value;
-  $('#messages').append($('<li class="' + message.username + '">').html(fullMessage));
-  setColor(message.username, color);
+  let fullMessage = '<div class="col-md-11 msg-container">';
+  fullMessage += '<strong>' + message.username + ' on ' + date + ' wrote: </strong>';
+  fullMessage += message.value;
+  fullMessage += '</div>';
+  fullMessage += '<a class="trash-icon" style="display: none" onclick="deleteMessage(\'' + message.id + '\')">';
+  fullMessage += '<img src="/public/images/trash-32.png">';
+  fullMessage += '</a>';
+
+  $('#messages').append($('<li id="' + message.id + '" class="' + message.username + ' col-md-12">').html(fullMessage));
+  setColor(message.username, user[0].color);
+  enableDeletion(message);
 };
 
 let findUser = (username, users) => {
@@ -14,6 +27,26 @@ let clearMessages = () => {
   $('#messages').html('');
 };
 
+let isMessageDeletable = (message) => {
+  return moment(message.date).isAfter(moment().subtract(15, 'minutes'));
+};
+
+// Initializes the deletion of a message for the user
+let enableDeletion = (message) => {
+  let user = $('#username').val();
+  let elementId = '#' + message.id;
+  let isDeletable = isMessageDeletable(message);
+
+  if ((user === message.username) && isDeletable) {
+    $(document).on('mouseenter', elementId, function () {
+      $(this).find('.trash-icon').show();
+    }).on('mouseleave', elementId, function () {
+      $(this).find('.trash-icon').hide();
+    });
+  }
+};
+
+// Set font color on chat start
 let setColor = (username, hex) => {
   let user = $('#username').val();
   if (username === user) {
@@ -22,12 +55,34 @@ let setColor = (username, hex) => {
   $('.' + username).css('color', hex);
 };
 
-$(function () {
-  let socket = io();
-  let username = $('#username').val();
+let deleteMessage = (message) => {
+  socket.emit('delete message', message);
+};
 
+let timerIncrement = (sock) => {
+  idleTime = idleTime + 1;
+  if (idleTime >= 5) { // 5 minutes
+    window.close();
+  }
+};
+
+$(function () {
+  let username = $('#username').val();
   socket.emit('init', true);
 
+  //Increment the idle time counter every minute.
+  setInterval(timerIncrement, 60000); // 1 minute
+
+  //Zero the idle timer on mouse movement.
+  $(this).mousemove(function (e) {
+    idleTime = 0;
+  });
+
+  $(this).keypress(function (e) {
+    idleTime = 0;
+  });
+
+  // Set font color on user selection
   $('#colorpicker').colpick({
     color: '000000',
     onChange: function(hsb, hex, rgb, el) {
@@ -48,7 +103,7 @@ $(function () {
   $('#messaging-form').submit(() => {
     let messageText = $('#message');
     let username = $('#username');
-    let date = moment(new Date()).format('MMMM Do YYYY HH:MM');
+    let date = moment(new Date());
 
     let message = {
       id: new Date().valueOf(),
@@ -69,11 +124,11 @@ $(function () {
 
   $(window).bind("beforeunload", function() {
     socket.emit('leave', username);
-    //return confirm("Do you really want to close?");
   });
 
   socket.on('chat message', (message, users) => {
     displayMessage(message, users);
+    gotoBottom();
   });
 
   socket.on('get messages', function(messages, users) {
@@ -81,5 +136,7 @@ $(function () {
     $(messages).each((index, message) => {
       displayMessage(message, users);
     });
+
+    gotoBottom();
   });
 });

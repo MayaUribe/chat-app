@@ -113,16 +113,31 @@ h1 {
     padding: 0;
     min-width: 50%;
     min-height: 70%;
-    background-color: #c4c8cb;
+    background-color: #ececec;
+    max-height: 500px;
+    overflow-y: auto;
 }
 
 #messaging-form > div {
     padding: 0px;
 }
 
-#messages li { padding: 5px 10px; }
+#messages li {
+    padding: 10px 10px;
+}
 
-#messages li:nth-child(odd) { background: #eee; }
+#messages li:nth-child(odd) {
+    background: #fbfbfb;
+}
+
+.msg-container {
+    line-height: 38px;
+}
+
+.trash-icon {
+    float: right;
+    cursor: hand;
+}
 
 /* Icon Styles */
 

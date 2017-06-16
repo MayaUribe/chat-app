@@ -1,10 +1,4 @@
-let setWindowSize = (w, h) => {
-  let left = (screen.width / 2) - (w / 2);
-  let top = (screen.height / 2) - (h / 2);
-
-  return 'width=' + w + ', height=' + h + ', left=' + left + ', top=' + top;
-};
-
+// Opens the popup window with the chat
 let openChatWindow = (userJoined) => {
   let username = $('#username');
   let url = '/chatroom/' + username.val();

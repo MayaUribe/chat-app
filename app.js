@@ -31,21 +31,17 @@ let setUserLogged = (users, user, isLogged) => {
   }
 };
 
-io.on('connection', function(socket) {
-  socket.on('join', function (data) {
+io.on('connection', (socket) => {
+  socket.on('join', (data) => {
     let username = data.username;
     let user = users.filter(user => user.username === username);
 
     if (user.length > 0) {
       io.emit('already logged', user);
-      if (!user.logged) {
+      if (!user.logged) { // the user logged back in
         setUserLogged(users, data.username, true);
-        console.log('The user', username, 'just logged in back');
-      } else {
-        console.log('The user', username, 'is already logged in');
       }
-    } else {
-      console.log('The user', username, 'just logged in');
+    } else { // the user logged in
       let user = {
         logged: true,
         username,
@@ -57,35 +53,30 @@ io.on('connection', function(socket) {
     }
   });
 
-  socket.on('disconnect', function(socket) {
-    //console.log('user disconnected');
-  });
-
-  socket.on('get messages', function(messages) {
+  socket.on('get messages', (messages) => {
     io.emit('get messages', messages, users);
   });
 
-  socket.on('init', function(init) {
+  socket.on('init', (init) => {
     io.emit('init', init);
     io.emit('get messages', messages, users);
   });
 
-  socket.on('leave', function (username) {
-    console.log('user disconnected', username);
+  socket.on('leave', (username) => {
     setUserLogged(users, username, false);
     io.emit('leave', username);
   });
 
-  socket.on('chat message', function(message) {
+  socket.on('chat message', (message) => {
     messages.push(message);
     io.emit('chat message', message, users);
   });
 
-  socket.on('already logged', function(user) {
+  socket.on('already logged', (user) => {
     io.emit('already logged', user);
   });
 
-  socket.on('change color', function(username, color) {
+  socket.on('change color', (username, color) => {
     for (let i in users) {
       if (users[i].username === username) {
         users[i].color = color;
@@ -94,8 +85,18 @@ io.on('connection', function(socket) {
     }
     socket.emit('change color', username, color);
   });
+
+  socket.on('delete message', (message) => {
+    let index = messages.findIndex(msg => msg.id === parseInt(message));
+
+    if (index !== -1) {
+      messages.splice(index, 1);
+      io.emit('delete message', message);
+      io.emit('get messages', messages, users);
+    }
+  });
 });
 
-http.listen(3000, function() {
+http.listen(3000, () => {
   console.log('listening on *:3000');
 });
