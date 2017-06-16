@@ -7,14 +7,13 @@
 }
 body {
     font: 13px Helvetica, Arial;
-    background: #1d2a33 url('../images/bg.jpg') no-repeat;
-    background-size: cover;
+    background: url('../images/bg.png');
 }
 a:hover {
     color: rgba(49,176,213, .7);
 }
 h1 {
-    color: #2057bf;
+    color: #598bea;
 }
 
 /* Component Styles */
@@ -27,7 +26,7 @@ h1 {
     margin-bottom: 2.5rem;
 }
 .main {
-    color: #3877d8;
+    color: #598bea;
     min-height: calc(100vh - 34px);
 }
 .foot {
@@ -183,6 +182,7 @@ h1.chat-title.display-5 {
     height: 25px;
     vertical-align: middle;
     margin: 0px 10px 0px 0px;
+    color: #e0dfdf;
 }
 #colorpicker {
     width: 25px;

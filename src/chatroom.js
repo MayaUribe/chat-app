@@ -6,17 +6,20 @@ let idleTime = 0;
 let displayMessage = (message, users) => {
   let date = formatDate(message.date);
   let user = findUser(message.username, users);
-  let fullMessage = '<div class="col-md-11 msg-container">';
-  fullMessage += '<strong>' + message.username + ' on ' + date + ' wrote: </strong>';
-  fullMessage += message.value;
-  fullMessage += '</div>';
-  fullMessage += '<a class="trash-icon" style="display: none" onclick="deleteMessage(\'' + message.id + '\')">';
-  fullMessage += '<img src="/public/images/trash-32.png">';
-  fullMessage += '</a>';
 
-  $('#messages').append($('<li id="' + message.id + '" class="' + message.username + ' col-md-12">').html(fullMessage));
-  setColor(message.username, user[0].color);
-  enableDeletion(message);
+  if (user) {
+    let fullMessage = '<div class="col-md-11 msg-container">';
+    fullMessage += '<strong>' + message.username + ' on ' + date + ' wrote: </strong>';
+    fullMessage += message.value;
+    fullMessage += '</div>';
+    fullMessage += '<a class="trash-icon" style="display: none" onclick="deleteMessage(\'' + message.id + '\')">';
+    fullMessage += '<img src="/public/images/trash-32.png">';
+    fullMessage += '</a>';
+
+    $('#messages').append($('<li id="' + message.id + '" class="' + message.username + ' col-md-12">').html(fullMessage));
+    setColor(message.username, user[0].color);
+    enableDeletion(message);
+  }
 };
 
 let findUser = (username, users) => {
@@ -74,21 +77,21 @@ $(function () {
   setInterval(timerIncrement, 60000); // 1 minute
 
   //Zero the idle timer on mouse movement.
-  $(this).mousemove(function (e) {
+  $(this).mousemove((e) => {
     idleTime = 0;
   });
 
-  $(this).keypress(function (e) {
+  $(this).keypress((e) => {
     idleTime = 0;
   });
 
   // Set font color on user selection
   $('#colorpicker').colpick({
     color: '000000',
-    onChange: function(hsb, hex, rgb, el) {
+    onChange: (hsb, hex, rgb, el) => {
       $(el).css('background-color', '#' + hex);
     },
-    onSubmit: function(hsb, hex, rgb, el) {
+    onSubmit: (hsb, hex, rgb, el) => {
       $(el).css('background-color', '#' + hex);
       $('.' + username).css('color', '#' + hex);
       $(el).colpickHide();
@@ -122,7 +125,7 @@ $(function () {
     window.close();
   });
 
-  $(window).bind("beforeunload", function() {
+  $(window).bind("beforeunload", () => {
     socket.emit('leave', username);
   });
 
@@ -131,12 +134,16 @@ $(function () {
     gotoBottom();
   });
 
-  socket.on('get messages', function(messages, users) {
+  socket.on('get messages', (messages, users) => {
     clearMessages();
     $(messages).each((index, message) => {
       displayMessage(message, users);
     });
 
     gotoBottom();
+  });
+
+  socket.on('disconnect',function(){
+    window.close();
   });
 });
