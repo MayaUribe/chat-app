@@ -22,9 +22,6 @@ h1 {
     padding: 1rem 0;
     background: rgba(0,0,0, .25);
 }
-.lead {
-    margin-bottom: 2.5rem;
-}
 .main {
     color: #598bea;
     min-height: calc(100vh - 34px);
@@ -171,12 +168,6 @@ h1 {
     color: initial;
 }
 
-h1.chat-title.display-5 {
-    font-size: 2.5rem;
-    font-weight: 300;
-    margin: 0;
-    display: inline-block;
-}
 .submenu {
     font-size: 14px;
     height: 25px;
@@ -218,6 +209,19 @@ h1.chat-title.display-5 {
     .main-chat {
         padding-top: 1rem;
     }
+    h1.chat-title.display-5 {
+        font-size: 1.5rem;
+        font-weight: 300;
+        margin: 0;
+        display: inline-block;
+    }
+    .display-3 {
+        font-size: 2.5rem;
+    }
+    .lead {
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+    }
 }
 
 @media (min-width: 48em) {
@@ -237,6 +241,15 @@ h1.chat-title.display-5 {
     }
     .main-chat {
         padding-top: 2rem;
+    }
+    h1.chat-title.display-5 {
+        font-size: 2.5rem;
+        font-weight: 300;
+        margin: 0;
+        display: inline-block;
+    }
+    .lead {
+        margin-bottom: 2.5rem;
     }
 }
 
