@@ -84,6 +84,10 @@ h1 {
 .btn-red:hover {
     color: #989898!important;
 }
+.btn-gray {
+    background-color: dimgray;
+    color: #eeeeee!important;
+}
 .btn-light {
     color: rgba(255,255,255, .75);
     background: rgba(255,255,255, .12);
@@ -94,6 +98,12 @@ h1 {
 .active,
 .btn {
     transition: .4s;
+}
+.btn-logout {
+    float: right;
+}
+.color-container {
+    margin-top: 10px;
 }
 
 /* Chat Styles */
@@ -147,8 +157,24 @@ h1 {
     color: initial;
 }
 
-.favorite-book {
-    margin-top: 30px;
+h1.chat-title.display-5 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin: 0;
+    display: inline-block;
+}
+.submenu {
+    font-size: 14px;
+    height: 25px;
+    vertical-align: middle;
+    margin: 0px 10px 0px 0px;
+}
+#colorpicker {
+    width: 25px;
+    height: 25px;
+    border: 3px solid #a0a0a0;
+    background-color: #000;
+    vertical-align: sub;
 }
 
 /* Media Queries */

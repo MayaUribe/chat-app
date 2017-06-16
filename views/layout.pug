@@ -4,12 +4,14 @@ head
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     meta(http-equiv='x-ua-compatible', content='ie=edge')
     title Chat App | #{title}
+    link(rel='shortcut icon' href='/public/images/favicon.png' type='image/png')
     link(rel='stylesheet', href='/bootstrap/dist/css/bootstrap.min.css')
-    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(rel='stylesheet' href='/jquery-colpick/css/colpick.css' type='text/css')
+    link(rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons')
     link(rel='stylesheet', href='/public/stylesheets/styles.css')
 
     body
-        // load navbar.jade
+        // load navbar.pug
         // include navbar
 
         // content block
@@ -18,8 +20,11 @@ head
         // footer
         p.foot.text-xs-center Chat Application
 
+    block scripts
         script(src='/jquery/dist/jquery.min.js', type='text/javascript')
+        script(src='/jquery-colpick/js/colpick.js' type='text/javascript')
         script(src='/tether/dist/js/tether.min.js', type='text/javascript')
         script(src='/bootstrap/dist/js/bootstrap.min.js', type='text/javascript')
+        script(src='/moment/moment.js', type='text/javascript')
         script(src='/socket.io/socket.io.js', type='text/javascript')
-        script(src='/src/messaging.js', type='text/javascript')
+        script(src='/src/utils.js', type='text/javascript')

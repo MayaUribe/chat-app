@@ -3,11 +3,24 @@ extends layout
 block content
 	.main-chat.container
 		.row
-			h1.display-4 Happy Chatting :)
+			.row
+				.col-md-12
+					h1.chat-title.display-5 Happy Chatting #{username} :)
+					.btn-toolbar.col-md-1.btn-logout
+						form(action="/logout" method="POST")
+							a#logout-btn.btn.btn-gray Logout
+			.row.color-container
+				.col-md-12
+					label.submenu Choose your color:
+					button#colorpicker
 			ul#messages
 			form(id="messaging-form" action="" class="form-horizontal")
 				div.col-md-12
 					div.input-group
-						input#message.form-control(type="text" autocomplete="off" placeholder="Your message here" name="message")
+						input#message.form-control(type="text" autocomplete="off" required placeholder="Your message here" name="message")
+						input#username(type="hidden" value=username name="username")
 						span.input-group-btn
-							button.btn.btn-red(type="button") Send
+							button.btn.btn-red(type="submit") Send
+
+block append scripts
+	script(src='/src/chatroom.js', type='text/javascript')
