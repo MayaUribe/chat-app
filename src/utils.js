@@ -3,6 +3,9 @@ let validateMessage = (e) => {
 
   if (k.match(/[^a-zA-Z0-9.,?!:'" ]/g))
     e.preventDefault();
+
+  if (e.keyCode === 13)
+    $("#send-btn").click();
 };
 
 let validateUsername = (e) => {
@@ -11,7 +14,6 @@ let validateUsername = (e) => {
   if (k.match(/[^a-zA-Z0-9]/g))
     e.preventDefault();
 
-  if (e.keyCode === 13) {
+  if (e.keyCode === 13)
     $("#login-btn").click();
-  }
 };
